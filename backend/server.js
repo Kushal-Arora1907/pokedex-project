@@ -144,6 +144,14 @@ if (fs.existsSync(frontendDist)) {
   });
 }
 
+// friendly root route
+app.get("/", (req, res) => {
+  res.send(
+    `<h3>Pokédex backend</h3>
+     <p>API is available under <a href="/api">/api</a>. Try <a href="/api/health">/api/health</a>.</p>`
+  );
+});
+
 app.listen(PORT, () =>
   console.log(`Backend running on http://localhost:${PORT}`)
 );
