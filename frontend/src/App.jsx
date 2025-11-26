@@ -39,16 +39,24 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
+  // API base: prefer Vite env var, otherwise fallback to your Render URL
+  const API_BASE =
+    import.meta.env.VITE_API_BASE ||
+    "https://pokedex-project-pttb.onrender.com/api";
+
   async function doSearch(name) {
     if (!name) return;
     setErr("");
     setPokemon(null);
     setLoading(true);
     try {
-      const res = await fetch(`/api/pokemon/${encodeURIComponent(name)}`);
+      const res = await fetch(
+        `${API_BASE}/pokemon/${encodeURIComponent(name)}`
+      );
       const json = await res.json();
       if (!res.ok || !json.ok) throw new Error(json.error || "Not found");
       setPokemon(json.data);
+
       // scroll result into view a bit after it renders
       setTimeout(() => {
         const el = document.querySelector(".result-card");
